@@ -17,6 +17,19 @@ trait CdpGateway {
     * @return Right(StorageSpace) or Left(CdpGatewayError)
     */
   def getStorageLocationBase(environmentName: String): Either[CdpGatewayError, String]
+
+  /** Verify the existence of a CDP Environment
+    * @param cdpEnvironment CDP environment name
+    * @return true if the environment exists, false otherwise
+    */
+  def cdpEnvironmentExists(cdpEnvironment: String): Boolean
+
+  /** Verify the existence of a CDP Datalake
+    *
+    * @param cdpEnvironment CDP environment name
+    * @return true if the datalake exists, false otherwise
+    */
+  def cdpDatalakeExists(cdpEnvironment: String): Boolean
 }
 
 object CdpGateway {
