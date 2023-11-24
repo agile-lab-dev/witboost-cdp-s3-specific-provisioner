@@ -15,6 +15,7 @@ This repository is part of our [Starter Kit](https://github.com/agile-lab-dev/wi
 - [Running](#running)
 - [Configuring](#configuring)
 - [Deploying](#deploying)
+- [HLD](docs/HLD.md)
 - [API specification](docs/API.md)
 
 ## Overview
