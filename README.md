@@ -107,7 +107,7 @@ This Specific Provisioner uses the followings SDK:
 
 ## Deploying
 
-This microservice is meant to be deployed to a Kubernetes cluster.
+This microservice is meant to be deployed to a Kubernetes cluster. We provide an [helm chart](./helm) for this purpose.
 
 ## License
 
