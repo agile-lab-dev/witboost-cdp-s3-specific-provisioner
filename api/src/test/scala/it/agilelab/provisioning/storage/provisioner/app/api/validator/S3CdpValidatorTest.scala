@@ -9,7 +9,7 @@ import it.agilelab.provisioning.mesh.self.service.api.model.{ DataProduct, Provi
 import it.agilelab.provisioning.storage.provisioner.app.api.validator.S3CdpValidator.validator
 import it.agilelab.provisioning.storage.provisioner.core.gateway.cdp.CdpGateway
 import it.agilelab.provisioning.storage.provisioner.core.gateway.cdp.CdpGatewayError.DescribeCdpDlErr
-import it.agilelab.provisioning.storage.provisioner.core.models.{ Acl, DpCdp, S3Cdp }
+import it.agilelab.provisioning.storage.provisioner.core.models.{ DpCdp, S3Cdp }
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
@@ -39,6 +39,8 @@ class S3CdpValidatorTest extends AnyFunSuite with MockFactory with Matchers {
         environment = "my-env",
         version = "0.1.2",
         dataProductOwner = "my-dp-owner",
+        devGroup = "devGroup",
+        ownerGroup = "ownerGroup",
         specific = DpCdp(),
         components = Seq.empty[Json]
       ),
@@ -54,11 +56,7 @@ class S3CdpValidatorTest extends AnyFunSuite with MockFactory with Matchers {
           specific = S3Cdp(
             cdpEnvironment = "cdpEnv",
             bucket = "my-bucket",
-            folder = "mesh/domains/my-domain-name/data-products/my-dp-name/my-env/0/",
-            acl = Acl(
-              owners = Seq("x"),
-              users = Seq.empty
-            )
+            folder = "mesh/domains/my-domain-name/data-products/my-dp-name/my-env/0/"
           )
         )
       )
@@ -92,6 +90,8 @@ class S3CdpValidatorTest extends AnyFunSuite with MockFactory with Matchers {
         environment = "my-env",
         version = "0.1.2",
         dataProductOwner = "my-dp-owner",
+        devGroup = "devGroup",
+        ownerGroup = "ownerGroup",
         specific = DpCdp(),
         components = Seq.empty[Json]
       ),
@@ -107,11 +107,7 @@ class S3CdpValidatorTest extends AnyFunSuite with MockFactory with Matchers {
           specific = S3Cdp(
             cdpEnvironment = "cdpEnv",
             bucket = "my-bucket",
-            folder = "mesh/domains/my-domain-name/data-products/my-dp-name/my-env/0/",
-            acl = Acl(
-              owners = Seq("x"),
-              users = Seq.empty
-            )
+            folder = "mesh/domains/my-domain-name/data-products/my-dp-name/my-env/0/"
           )
         )
       )

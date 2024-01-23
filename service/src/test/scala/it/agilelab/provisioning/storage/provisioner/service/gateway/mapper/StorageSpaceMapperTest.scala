@@ -4,7 +4,7 @@ import it.agilelab.provisioning.mesh.self.service.api.model.Component.{ DataCont
 import it.agilelab.provisioning.mesh.self.service.api.model.DataProduct
 import io.circe.Json
 import it.agilelab.provisioning.storage.provisioner.core.gateway.cdp.CdpGateway
-import it.agilelab.provisioning.storage.provisioner.core.models.{ Acl, DpCdp, S3Cdp, StorageSpace }
+import it.agilelab.provisioning.storage.provisioner.core.models.{ DpCdp, S3Cdp, StorageSpace }
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -22,6 +22,8 @@ class StorageSpaceMapperTest extends AnyFunSuite with MockFactory {
         environment = "environment",
         version = "version",
         dataProductOwner = "data product owner",
+        devGroup = "devGroup",
+        ownerGroup = "ownerGroup",
         specific = DpCdp(),
         components = Seq.empty[Json]
       ),
@@ -36,11 +38,7 @@ class StorageSpaceMapperTest extends AnyFunSuite with MockFactory {
         specific = S3Cdp(
           cdpEnvironment = "cdpEnv",
           bucket = "my-bucket",
-          folder = "a-path/x/",
-          acl = Acl(
-            owners = Seq("own1", "own2"),
-            users = Seq("usr1", "usr2")
-          )
+          folder = "a-path/x/"
         )
       )
     )
@@ -49,9 +47,7 @@ class StorageSpaceMapperTest extends AnyFunSuite with MockFactory {
       StorageSpace(
         id = "urn:dmb:cmp:dm-name:dp-name:1:sources:environment",
         bucket = "my-bucket",
-        path = "a-path/x/",
-        owners = Seq("own1", "own2"),
-        users = Seq("usr1", "usr2")
+        path = "a-path/x/"
       )
     )
 

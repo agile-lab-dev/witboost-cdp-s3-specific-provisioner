@@ -14,10 +14,7 @@ class S3CdpStorageSpaceMapper extends StorageSpaceMapper {
       StorageSpace(
         "%s:%s".format(outputPort.id, dataProduct.environment),
         outputPort.specific.bucket,
-        outputPort.specific.folder,
-        // TODO here probably we need to remove owners and users as they are dynamic and comes from updateAcl request
-        owners = outputPort.specific.acl.owners,
-        users = outputPort.specific.acl.users
+        outputPort.specific.folder
       )
     )
 

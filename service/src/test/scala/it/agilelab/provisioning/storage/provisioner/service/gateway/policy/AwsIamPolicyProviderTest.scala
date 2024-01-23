@@ -3,7 +3,7 @@ package it.agilelab.provisioning.storage.provisioner.service.gateway.policy
 import it.agilelab.provisioning.mesh.self.service.api.model.Component.{ DataContract, OutputPort }
 import it.agilelab.provisioning.mesh.self.service.api.model.DataProduct
 import io.circe.Json
-import it.agilelab.provisioning.storage.provisioner.core.models.{ Acl, DpCdp, S3Cdp, StorageSpace }
+import it.agilelab.provisioning.storage.provisioner.core.models.{ DpCdp, S3Cdp, StorageSpace }
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -18,6 +18,8 @@ class AwsIamPolicyProviderTest extends AnyFunSuite with MockFactory {
     environment = "environment",
     version = "version",
     dataProductOwner = "data product owner",
+    devGroup = "devGroup",
+    ownerGroup = "ownerGroup",
     specific = DpCdp(),
     components = Seq.empty[Json]
   )
@@ -32,16 +34,12 @@ class AwsIamPolicyProviderTest extends AnyFunSuite with MockFactory {
     specific = S3Cdp(
       "cdpEnv",
       "a-path/x/",
-      "env",
-      Acl(
-        owners = Seq("own1", "own2"),
-        users = Seq("usr1", "usr2")
-      )
+      "env"
     )
   )
 
   test("getFullAccessPolicy") {
-    val storageSpace = StorageSpace("my:id", "a-bucket", "a-path/x/", Seq.empty, Seq.empty)
+    val storageSpace = StorageSpace("my:id", "a-bucket", "a-path/x/")
     val actual       = policyProvider.getFullAccessPolicy(storageSpace)
     val expected     = AccessPolicy(
       "full-access.my.id",
@@ -51,7 +49,7 @@ class AwsIamPolicyProviderTest extends AnyFunSuite with MockFactory {
   }
 
   test("getReadOnlyAccessPolicy") {
-    val storageSpace = StorageSpace("my:id", "a-bucket", "a-path/x/", Seq.empty, Seq.empty)
+    val storageSpace = StorageSpace("my:id", "a-bucket", "a-path/x/")
     val actual       = policyProvider.getReadOnlyAccessPolicy(storageSpace)
     val expected     = AccessPolicy(
       "read-only.my.id",

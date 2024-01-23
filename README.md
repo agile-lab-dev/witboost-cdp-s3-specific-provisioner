@@ -105,6 +105,59 @@ This Specific Provisioner uses the followings SDK:
 - **CDP SDK**: please refer to the [official documentation](https://docs.cloudera.com/cdp-public-cloud/cloud/sdk/topics/mc-overview-of-the-cdp-sdk-for-java.html) to setup the access credentials
 - **AWS SDK**: please refer to the [official documentation](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/setup-basics.html) to setup the access credentials
 
+### Environment variables
+
+This Specific Provisioner expects the following environment variables to be defined:
+
+| Variable                 | Description                                               |
+|:-------------------------|:----------------------------------------------------------|
+| CDP_DEPLOY_ROLE_USER     | The CDP user to be used with CDP services (eg Ranger)     |
+| CDP_DEPLOY_ROLE_PASSWORD | The CDP password to be used with CDP services (eg Ranger) |
+
+The CDP user must be a `Machine User` and needs to have at least the following roles:
+- EnvironmentAdmin
+- EnvironmentUser
+
+### Provisioner configuration
+
+| Configuration                               | Description                                          | Default   |
+|:--------------------------------------------|:-----------------------------------------------------|:----------|
+| provisioner.networking.httpServer.interface | Interface to bind the specific provisioner API layer | `0.0.0.0` |
+| provisioner.networking.httpServer.port      | Port to bind the specific provisioner API layer      | `8093`    |
+
+Example:
+
+```
+provisioner {
+  networking {
+    httpServer {
+      port: 8093
+      interface: "0.0.0.0"
+    }
+  }
+}
+```
+
+### Service configuration
+
+| Configuration                          | Description                                                                | Default |
+|:---------------------------------------|:---------------------------------------------------------------------------|:--------|
+| s3.principalsMappingPlugin             | Object containing the configuration for instantiating the PrincipalsMapper |         |  
+| s3.principalsMappingPlugin.pluginClass | Fully qualified name of the PrincipalsMapperFactory to be instantiated     |         |
+
+Each PrincipalsMapperFactory may require additional configuration information to create the PrincipalsMapper instance. This configuration is retrieved from an object in the `principalsMappingPlugin` config object. The key of this object shall be equal to the `configIdentifier` of the instantiated PrincipalsMapperFactory
+
+Example of configuration to load `FreeIpaIdentityPrincipalsMapper`:
+
+```
+s3 {
+  principalsMappingPlugin {
+    pluginClass = "it.agilelab.provisioning.commons.principalsmapping.impl.freeipa.FreeIpaIdentityPrincipalsMapperFactory"
+    freeipa-identity {}
+  }
+}
+```
+
 ## Deploying
 
 This microservice is meant to be deployed to a Kubernetes cluster. We provide an [helm chart](./helm) for this purpose.

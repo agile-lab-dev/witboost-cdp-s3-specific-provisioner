@@ -8,7 +8,11 @@ import it.agilelab.provisioning.storage.provisioner.app.config.{
   FrameworkDependencies,
   S3CdpProvisionerController
 }
-import it.agilelab.provisioning.storage.provisioner.service.context.ContextError.{ ClientError, ConfigurationError }
+import it.agilelab.provisioning.storage.provisioner.service.context.ContextError.{
+  ClientError,
+  ConfigurationError,
+  PrincipalsMapperLoaderError
+}
 import org.http4s.ember.server.EmberServerBuilder
 
 object Main extends IOApp {
@@ -16,9 +20,10 @@ object Main extends IOApp {
   val conf: Conf                                     = Conf.envWithAudit()
   override def run(args: List[String]): IO[ExitCode] = for {
     provisionerController <- S3CdpProvisionerController.apply(conf) match {
-                               case Left(error: ClientError)        => IO.raiseError(error.throwable)
-                               case Left(error: ConfigurationError) => IO.raiseError(error.error)
-                               case Right(value)                    => IO.pure(value)
+                               case Left(error: ClientError)                 => IO.raiseError(error.throwable)
+                               case Left(error: ConfigurationError)          => IO.raiseError(error.error)
+                               case Left(error: PrincipalsMapperLoaderError) => IO.raiseError(error.throwable)
+                               case Right(value)                             => IO.pure(value)
                              }
     frameworkDependencies <- IO.pure(new FrameworkDependencies(provisionerController))
     interface             <- IO.fromOption(

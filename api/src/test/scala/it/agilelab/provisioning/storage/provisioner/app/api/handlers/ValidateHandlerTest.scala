@@ -10,6 +10,7 @@ import it.agilelab.provisioning.api.generated.definitions.{
   ValidationError,
   ValidationResult
 }
+import it.agilelab.provisioning.commons.principalsmapping.CdpIamPrincipals
 import it.agilelab.provisioning.mesh.self.service.api.controller.ProvisionerController
 import it.agilelab.provisioning.mesh.self.service.api.model.{
   ApiError,
@@ -29,7 +30,7 @@ import org.http4s.circe.CirceEntityEncoder._
 class ValidateHandlerTest extends HandlerTestBase with MockFactory {
 
   "The server" should "return a 200 with no error when the descriptor validation succeeds" in {
-    val provisioner                = mock[ProvisionerController[DpCdp, S3Cdp]]
+    val provisioner                = mock[ProvisionerController[DpCdp, S3Cdp, CdpIamPrincipals]]
     (provisioner
       .validate(_: ApiRequest.ProvisioningRequest)(
         _: Decoder[ProvisioningDescriptor[DpCdp]],
@@ -52,7 +53,7 @@ class ValidateHandlerTest extends HandlerTestBase with MockFactory {
 
   it should "return a 200 with a list of errors when the validation fails" in {
     val errors                     = Vector("first error", "second error")
-    val provisioner                = mock[ProvisionerController[DpCdp, S3Cdp]]
+    val provisioner                = mock[ProvisionerController[DpCdp, S3Cdp, CdpIamPrincipals]]
     (provisioner
       .validate(_: ApiRequest.ProvisioningRequest)(
         _: Decoder[ProvisioningDescriptor[DpCdp]],
@@ -76,7 +77,7 @@ class ValidateHandlerTest extends HandlerTestBase with MockFactory {
 
   it should "return a 500 with with meaningful error on validate exception" in {
     val error                      = "first error"
-    val provisioner                = mock[ProvisionerController[DpCdp, S3Cdp]]
+    val provisioner                = mock[ProvisionerController[DpCdp, S3Cdp, CdpIamPrincipals]]
     (provisioner
       .validate(_: ApiRequest.ProvisioningRequest)(
         _: Decoder[ProvisioningDescriptor[DpCdp]],

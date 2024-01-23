@@ -20,9 +20,7 @@ class S3CdpStorageSpaceGatewayTest extends AnyFunSuite with MockFactory {
       StorageSpace(
         "id",
         "bucket",
-        "path",
-        Seq.empty,
-        Seq.empty
+        "path"
       )
     )
   }

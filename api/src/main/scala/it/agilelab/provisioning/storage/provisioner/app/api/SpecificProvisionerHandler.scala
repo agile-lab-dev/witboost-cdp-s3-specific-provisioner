@@ -16,9 +16,10 @@ import it.agilelab.provisioning.mesh.self.service.api.model.{ ApiError, ApiReque
 import it.agilelab.provisioning.storage.provisioner.app.api.mapping.{ ProvisioningStatusMapper, ValidationErrorMapper }
 import it.agilelab.provisioning.storage.provisioner.core.models.{ DpCdp, S3Cdp }
 import io.circe.generic.auto._
+import it.agilelab.provisioning.commons.principalsmapping.CdpIamPrincipals
 
 class SpecificProvisionerHandler(
-  provisioner: ProvisionerController[DpCdp, S3Cdp]
+  provisioner: ProvisionerController[DpCdp, S3Cdp, CdpIamPrincipals]
 ) extends Handler[IO] {
 
   private val NotImplementedError = SystemError(
@@ -62,7 +63,16 @@ class SpecificProvisionerHandler(
   override def updateacl(respond: Resource.UpdateaclResponse.type)(
     body: UpdateAclRequest
   ): IO[Resource.UpdateaclResponse] = IO {
-    Resource.UpdateaclResponse.InternalServerError(NotImplementedError)
+    provisioner.updateAcl(
+      ApiRequest
+        .UpdateAclRequest(body.refs, ApiRequest.ProvisionInfo(body.provisionInfo.request, body.provisionInfo.result))
+    ) match {
+      case Left(error: ApiError.ValidationError) =>
+        Resource.UpdateaclResponse.BadRequest(RequestValidationError(error.errors.toVector))
+      case Left(error: ApiError.SystemError)     =>
+        Resource.UpdateaclResponse.InternalServerError(SystemError(error.error))
+      case Right(status)                         => Resource.UpdateaclResponse.Ok(ProvisioningStatusMapper.from(status))
+    }
   }
 
   override def validate(respond: Resource.ValidateResponse.type)(

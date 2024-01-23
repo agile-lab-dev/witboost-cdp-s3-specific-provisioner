@@ -67,7 +67,6 @@ object S3CdpValidator {
       case ProvisionRequest(_, Some(c: OutputPort[S3Cdp])) =>
         cdpGateway
           .getStorageLocationBase(c.specific.cdpEnvironment)
-          // TODO check also bucket logic
           .map {
             case s"s3a://$bucket/$_" => c.specific.bucket == bucket
             case s"s3a://$bucket/"   => c.specific.bucket == bucket
