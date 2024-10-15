@@ -6,8 +6,7 @@ inThisBuild(
   Seq(
     organization := "it.agilelab.provisioning",
     scalaVersion := "2.13.2",
-    version := ComputeVersion.version,
-    resolvers += ExternalResolvers.clouderaResolver
+    version := ComputeVersion.version
   )
 )
 
@@ -68,9 +67,9 @@ lazy val root = (project in file("."))
     mainClass in Compile := Some("it.agilelab.provisioning.storage.provisioner.app.Main"),
     artifactorySettings,
     dockerBuildOptions ++= Seq("--network=host"),
-    dockerBaseImage := "eclipse-temurin:11-jre-alpine",
+    dockerBaseImage := "openjdk:11-buster",
     dockerUpdateLatest := true,
-    daemonUser in Docker := "daemon",
+    daemonUser := "daemon",
     Docker / version := (ThisBuild / version).value,
     Docker / packageName :=
       s"registry.gitlab.com/agilefactory/witboost.mesh/provisioning/cdp-refresh/witboost.mesh.provisioning.outputport.cdp.s3",
@@ -109,20 +108,7 @@ lazy val wartremoverSettings = Seq(
 )
 
 lazy val artifactorySettings = Seq(
-  csrConfiguration ~=
-    (configuration =>
-      configuration.addRepositoryAuthentication(
-        "gitlab",
-        Authentication(
-          sys.env.getOrElse("GITLAB_ARTIFACT_USER", "GITLAB_ARTIFACT_USER"),
-          sys.env.getOrElse("GITLAB_ARTIFACT_TOKEN", "GITLAB_ARTIFACT_TOKEN")
-        )
-      )
-    ),
-  updateClassifiers / csrConfiguration := csrConfiguration.value,
-  updateSbtClassifiers / csrConfiguration := csrConfiguration.value,
   resolvers ++= Seq(
-    ExternalResolvers.gitlabScalaMeshCommonsResolver,
     ExternalResolvers.clouderaResolver
   )
 )

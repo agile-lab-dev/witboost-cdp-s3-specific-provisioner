@@ -2,20 +2,20 @@ import sbt._
 
 trait Dependencies {
 
-  lazy val scalaMeshVrs = "0.0.0-SNAPSHOT-425a059f93.fixes-to-principalsm" //"0.0.0-SNAPSHOT-2ae0e25.remove-comment"
+  lazy val scalaMeshVrs = "1.0.0"
   lazy val scalaTestVrs = "3.1.0"
   lazy val scalaMockVrs = "4.4.0"
 
-  lazy val scalaMeshS3Gat                    = "it.agilelab.provisioning" %% "scala-mesh-aws-s3"              % scalaMeshVrs
-  lazy val scalaMeshIamGat                   = "it.agilelab.provisioning" %% "scala-mesh-aws-iam"             % scalaMeshVrs
-  lazy val scalaMeshRepository               = "it.agilelab.provisioning" %% "scala-mesh-repository"          % scalaMeshVrs
-  lazy val scalaMeshCdpDl                    = "it.agilelab.provisioning" %% "scala-mesh-cdp-dl"              % scalaMeshVrs
-  lazy val scalaMeshCdpEnv                   = "it.agilelab.provisioning" %% "scala-mesh-cdp-env"             % scalaMeshVrs
-  lazy val ranger                            = "it.agilelab.provisioning" %% "scala-mesh-ranger"              % scalaMeshVrs
-  lazy val scalaMeshSelfService              = "it.agilelab.provisioning" %% "scala-mesh-self-service"        % scalaMeshVrs
-  lazy val scalaMeshSelfServiceLambda        = "it.agilelab.provisioning" %% "scala-mesh-self-service-lambda" % scalaMeshVrs
+  lazy val scalaMeshS3Gat                    = "com.witboost.provisioning" %% "scala-mesh-aws-s3"              % scalaMeshVrs
+  lazy val scalaMeshIamGat                   = "com.witboost.provisioning" %% "scala-mesh-aws-iam"             % scalaMeshVrs
+  lazy val scalaMeshRepository               = "com.witboost.provisioning" %% "scala-mesh-repository"          % scalaMeshVrs
+  lazy val scalaMeshCdpDl                    = "com.witboost.provisioning" %% "scala-mesh-cdp-dl"              % scalaMeshVrs
+  lazy val scalaMeshCdpEnv                   = "com.witboost.provisioning" %% "scala-mesh-cdp-env"             % scalaMeshVrs
+  lazy val ranger                            = "com.witboost.provisioning" %% "scala-mesh-ranger"              % scalaMeshVrs
+  lazy val scalaMeshSelfService              = "com.witboost.provisioning" %% "scala-mesh-self-service"        % scalaMeshVrs
+  lazy val scalaMeshSelfServiceLambda        = "com.witboost.provisioning" %% "scala-mesh-self-service-lambda" % scalaMeshVrs
   lazy val scalaMeshPrincipalsMappingSamples =
-    "it.agilelab.provisioning" %% "scala-mesh-principals-mapping-samples" % scalaMeshVrs
+    "com.witboost.provisioning" %% "scala-mesh-principals-mapping-samples" % scalaMeshVrs
 
   lazy val commonDependencies: Seq[ModuleID] = Seq(
     scalaMeshS3Gat,
